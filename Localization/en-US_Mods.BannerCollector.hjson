@@ -1,0 +1,10 @@
+Configs: {
+	BannerCollectorConfig: {
+		DisplayName: Banner Collector Config
+
+		EnableBannerBuff: {
+			Label: Enable Banner Buffs in Collection
+			Tooltip: ""
+		}
+	}
+}

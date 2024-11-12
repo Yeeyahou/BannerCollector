@@ -1,0 +1,6 @@
+You can collect and save banners in banner collection.
+And you can sort and filter by pressing the button, and the mod filter button will appear when compatible mods are applied.
+
+compatible mod list
+ * CalamityMod
+For more information, please visit the Steam Workshop page.

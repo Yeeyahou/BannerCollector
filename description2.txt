@@ -1,0 +1,14 @@
+[b]If an error occurs, please leave a comment or report the issue on Discord.[/b]
+
+[h1]BannerCollector[/h1]
+You can collect and save banners in banner collection.
+And you can sort and filter by pressing the button, and the mod filter button will appear when compatible mods are applied.
+Get buffs from collection banners, and you can toggle them on or off in the mod config!
+
+[b]compatible mod list[/b]
+[list]
+[*]CalamityMod
+[/list]
+
+[h1]Link[/h1]
+https://discord.gg/BDTRaPk7
