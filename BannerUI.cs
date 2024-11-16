@@ -14,12 +14,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Terraria.Localization;
+using BannerCollector;
 
 namespace BannerCollector
 {
     class BannerUI : UIState
     {
-        BannerButton bannerButton;
+        //BannerButton bannerButton;
         BannerPanel bannerPanel;
         ButtonLeft buttonLeft;
         ButtonRight buttonRight;
@@ -59,7 +63,6 @@ namespace BannerCollector
                 {
                     float pX, pY, pW, pH; //UI의 가로 세로 너비 높이
 
-                    bannerButton.hoverText = "Banner Collection Opened";
                     Append(bannerPanel);
                     Append(buttonLeft);
                     Append(buttonRight);
@@ -105,7 +108,6 @@ namespace BannerCollector
                 }
                 else
                 {
-                    bannerButton.hoverText = "Banner Collection Closed";
                     RemoveChild(bannerPanel);
                     RemoveChild(buttonLeft);
                     RemoveChild(buttonRight);
@@ -275,10 +277,6 @@ namespace BannerCollector
             BannerCollectorResources.PreloadAssets();
 
             //UI로드
-            bannerButton = new BannerButton(BannerCollectorResources.Button_Banner);
-            bannerButton.Left.Set(0f, 0f);
-            bannerButton.Top.Set(232f, 0f);
-            bannerButton.OnLeftClick += BannerButtonClicked;
 
             bannerPanel = new BannerPanel();
             bannerPanel.Top.Set(258, 0f);
@@ -328,12 +326,24 @@ namespace BannerCollector
             buttonFilterMod.SetDefault();
         }
         
+        public  void ShowBannerCollection(bool show)
+        {
+            if (show == true)
+            {
+                BannerCollectorVisible = false;
+            }
+            else
+            {
+                BannerCollectorVisible = true;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
-            this.AddOrRemoveChild(bannerButton, Main.playerInventory);
             if (Main.playerInventory == false)
             {
                 BannerCollectorVisible = false;
+                BannerButtonBuilderToggle.Instance.CurrentState = 0;
             }
             base.Update(gameTime);
         }
@@ -360,6 +370,7 @@ namespace BannerCollector
         private void ButtonCloseClicked(UIMouseEvent evt, UIElement listeningElement)
         {
             BannerCollectorVisible = false;
+            BannerButtonBuilderToggle.Instance.CurrentState = 0;
         }
         private void ButtonFilterModeClicked(UIMouseEvent evt, UIElement listeningElement)
         {
@@ -531,18 +542,6 @@ namespace BannerCollector
             MouseItemToSlot();
         }
 
-        private void BannerButtonClicked(UIMouseEvent evt, UIElement listeningElement)
-        {
-            if (bannerCollectorVisible == true)
-            {
-                BannerCollectorVisible = false;
-            }
-            else
-            {
-                BannerCollectorVisible = true;
-            }
-
-        }
         private void ButtonLeftClicked(UIMouseEvent evt, UIElement listeningElement)
         {
             buttonPage[(page--) - 1].UnSetPage();
@@ -557,5 +556,58 @@ namespace BannerCollector
             PageLoad();
         }
         #endregion
+    }
+}
+
+public class BannerButtonBuilderToggle : BuilderToggle
+{
+    public static BannerButtonBuilderToggle Instance { get; private set; }
+    public override string Texture => "BannerCollector/Resources/Banner_Button";
+    public override string HoverTexture => "BannerCollector/Resources/Banner_Button_Border";
+    public override bool Active() => true;
+
+    public BannerButtonBuilderToggle()
+    {
+        Instance = this;
+    }
+
+    public override string DisplayValue()
+    {
+        string text = "";
+        switch (CurrentState)
+        {
+            case 0:
+                text = "Banner collection closed";
+                break;
+            case 1:
+                text = "Banner collection opened";
+                break;
+        }
+
+        return text;
+    }
+
+    public override bool Draw(SpriteBatch spriteBatch, ref BuilderToggleDrawParams drawParams)
+    {
+
+        return true;
+    }
+
+    public override bool DrawHover(SpriteBatch spriteBatch, ref BuilderToggleDrawParams drawParams)
+    {
+        return true;
+    }
+
+    public override bool OnLeftClick(ref SoundStyle? sound)
+    {
+        if (CurrentState == 1)
+        {
+            BannerUISystem.Instance.ShowBannerCollection(true);
+        }
+        else
+        {
+            BannerUISystem.Instance.ShowBannerCollection(false);
+        }
+        return true;
     }
 }

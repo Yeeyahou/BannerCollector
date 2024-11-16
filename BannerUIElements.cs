@@ -44,57 +44,7 @@ namespace BannerCollector
         }
     }
 
-    internal class BannerButton : UIImageButton
-    {
-        static void HideMouseOverInteractions()
-        {
-            Main.player[Main.myPlayer].mouseInterface = true;
-            Main.mouseText = true;
-            Main.LocalPlayer.cursorItemIconEnabled = false;
-            Main.LocalPlayer.cursorItemIconID = -1;
-            Main.ItemIconCacheUpdate(0);
-        }
 
-        internal Asset<Texture2D> texture;
-        internal Color? borderColor;
-        public string hoverText;
-        public BannerButton(Asset<Texture2D> texture) : base(texture)
-        {
-            Width.Pixels = 22f;
-            Height.Pixels = 22f;
-            this.texture = texture;
-            hoverText = "Banner Collection Closed";
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            borderColor = null;
-
-            base.Update(gameTime);
-        }
-        protected override void DrawSelf(SpriteBatch spriteBatch)
-        {
-            if (ContainsPoint(Main.MouseScreen) && !PlayerInput.IgnoreMouseInterface)
-                HideMouseOverInteractions();
-
-            base.DrawSelf(spriteBatch);
-            Rectangle inner = GetInnerDimensions().ToRectangle();
-
-            if (ContainsPoint(Main.MouseScreen))
-            {
-                Main.mouseText = true; // 마우스 텍스트 활성화
-                Main.hoverItemName = hoverText; // 아이템 이름 설정
-                borderColor = Color.Yellow;
-            }
-
-            spriteBatch.Draw(BannerCollectorResources.Button_Banner.Value, inner, Color.White);
-
-            if (borderColor.HasValue)
-            {
-                spriteBatch.Draw(BannerCollectorResources.UI_BannerBorder.Value, inner, borderColor.Value); // Draw a colored border if one was set
-            }
-        }
-    }
 
     internal class BannerPanel : BannerUIElements
     {

@@ -21,7 +21,7 @@ namespace BannerCollector
                 tileUpdateTimer++;
 
                 // 60 프레임마다 (1초에 한 번) 타일 업데이트
-                if (tileUpdateTimer >= 60)
+                if (tileUpdateTimer >= 30)
                 {
                     tileUpdateTimer = 0; // 타이머 초기화
                     BannerBuffTile.UpdateTilePosition(player); // 타일 업데이트

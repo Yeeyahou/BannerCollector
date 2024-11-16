@@ -19,12 +19,13 @@ namespace BannerCollector
 {
     internal class BannerUISystem : ModSystem
     {
+        public static BannerUISystem Instance { get; private set; }
         internal BannerUI bannerUI;
         internal UserInterface BannerInterface;
 
         public override void Load()
         {
-
+            Instance = this;
             if (!Main.dedServ)
             {
                 Main.instance.LoadTiles(91);
@@ -96,6 +97,10 @@ namespace BannerCollector
             }
         }
 
+        public void ShowBannerCollection(bool show)
+        {
+            bannerUI.ShowBannerCollection(show);
+        }
 
         public override void Unload()
         {

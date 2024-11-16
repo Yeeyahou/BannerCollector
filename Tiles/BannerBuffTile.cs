@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BannerCollector.Dusts;
+using Terraria.ID;
 
 namespace BannerCollector.Tiles
 {
@@ -15,7 +18,7 @@ namespace BannerCollector.Tiles
     internal class BannerBuffTile : ModTile
     {
         static List<BannerInfo> bannerListToBuff = new List<BannerInfo>();
-        
+
         static int? preTileX;
         static int? preTileY;
         Mod calamity;
@@ -27,12 +30,13 @@ namespace BannerCollector.Tiles
             Main.tileLighted[Type] = false; // 빛을 발산하지 않음
             Main.tileNoAttach[Type] = true; // 타일에 부착할 수 없음
             Main.tileCut[Type] = false; // 부술 수 없는 타일로 설정
+            DustType = ModContent.DustType<BuffTileDust>();
         }
 
         public override void Load()
         {
             base.Load();
-            
+
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
@@ -58,7 +62,7 @@ namespace BannerCollector.Tiles
                     { bannerIndex = banner.Index - 21; }
                     else if (banner.ModName == "CalamityMod")
                     {
-                        if (calamity.TryFind(banner.ItemName.Replace("Banner",""), out modNPC))
+                        if (calamity.TryFind(banner.ItemName.Replace("Banner", ""), out modNPC))
                         {
                             bannerIndex = modNPC.Type;
                         }
@@ -69,6 +73,11 @@ namespace BannerCollector.Tiles
             }
         }
 
+        public override bool KillSound(int i, int j, bool fail)
+        {
+            return false;
+        }
+
         public static void UpdateTilePosition(Player player)
         {
             int tileX = (int)(player.position.X / 16);
@@ -76,25 +85,33 @@ namespace BannerCollector.Tiles
             //리스트 변경
             bannerListToBuff = BannerLoad.BannerDict.Values.ToList();
             bannerListToBuff.RemoveAll(banner => banner.BannerCount == 0);
-            // 현재 위치에 아무런 타일이 없을 때만 배치
-            if (Main.tile[tileX, tileY].TileType == 0)
+
+            if (!Main.tile[tileX, tileY - 10].HasTile)
+                tileY -= 10;
+            else if (!Main.tile[tileX, tileY + 10].HasTile)
+                tileY += 10;
+            else if (!Main.tile[tileX - 10, tileY].HasTile)
+                tileX -= 10;
+            else if (!Main.tile[tileX + 10, tileY].HasTile)
+                tileX += 10;
+            else
             {
-                if (preTileX != null && preTileY != null)
-                {
-                    bool tt = true;
-                    bool ff = false;
-                    TileLoader.GetTile(ModContent.TileType<BannerBuffTile>()).KillTile((int)preTileX, (int)preTileY, ref ff, ref ff, ref tt);
-                    // 새로운 타일 배치
-                    WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<BannerBuffTile>(), true, true);
-                    preTileX = tileX;
-                    preTileY = tileY;
-                }
-                else
-                {
-                    WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<BannerBuffTile>(), true, true);
-                    preTileX = tileX;
-                    preTileY = tileY;
-                }
+                return;
+            }
+            // 현재 위치에 아무런 타일이 없을 때만 배치
+            if (preTileX != null && preTileY != null)
+            {
+                WorldGen.KillTile((int)preTileX, (int)preTileY, false, false, true);
+                // 새로운 타일 배치
+                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<BannerBuffTile>(), true, true);
+                preTileX = tileX;
+                preTileY = tileY;
+            }
+            else
+            {
+                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<BannerBuffTile>(), true, true);
+                preTileX = tileX;
+                preTileY = tileY;
             }
         }
     }
