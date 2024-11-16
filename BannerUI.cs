@@ -200,12 +200,6 @@ namespace BannerCollector
             //정렬
             if (Sorting)
             {
-                if (filter == 2) //많은순으로 정렬은 미보유 필터 끄기
-                {
-                    buttonFilter.ChangeState(0);
-                    filter = 0;
-                    SortFilterList();
-                }
                 bannerList = bannerList.OrderByDescending(b => b.BannerCount).ToList();
             }
 

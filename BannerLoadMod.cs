@@ -670,7 +670,7 @@ namespace BannerCollector
                     bannerInfo.ModName = modName;
                     BannerDict.Add(bannerInfo.ItemId, bannerInfo);
                 }
-                
+
                 if (calamity.TryFind("PlaguebringerBanner", out item))
                 {
                     bannerInfo = new BannerInfo();
@@ -1041,7 +1041,7 @@ namespace BannerCollector
                     bannerInfo.ModName = modName;
                     BannerDict.Add(bannerInfo.ItemId, bannerInfo);
                 }
-                
+
                 if (calamity.TryFind("AquaticUrchinBanner", out item))
                 {
                     bannerInfo = new BannerInfo();
@@ -1501,6 +1501,66 @@ namespace BannerCollector
                 #endregion
             }
             #endregion
+
+            #region CatalystMod
+            modName = "CatalystMod";
+            if (ModList.Contains(modName))
+            {
+                Mod catalyst = ModLoader.GetMod("CatalystMod");
+                ModItem item;
+                #region All
+                if (catalyst.TryFind("WulfrumSlimeBanner", out item))
+                {
+                    bannerInfo = new BannerInfo();
+                    bannerInfo.ItemId = item.Type;
+                    bannerInfo.ItemName = item.Name;
+                    bannerInfo.BannerCount = 0;
+                    bannerInfo.IsHardMode = false;
+                    bannerInfo.Index = 2;
+                    bannerInfo.ModName = modName;
+                    BannerDict.Add(bannerInfo.ItemId, bannerInfo);
+                }
+
+                if (catalyst.TryFind("WulfrumMineBanner", out item))
+                {
+                    bannerInfo = new BannerInfo();
+                    bannerInfo.ItemId = item.Type;
+                    bannerInfo.ItemName = item.Name;
+                    bannerInfo.BannerCount = 0;
+                    bannerInfo.IsHardMode = false;
+                    bannerInfo.Index = 3;
+                    bannerInfo.ModName = modName;
+                    BannerDict.Add(bannerInfo.ItemId, bannerInfo);
+                }
+
+                //HardMode
+                if (catalyst.TryFind("AscendedAstralSlimeBanner", out item))
+                {
+                    bannerInfo = new BannerInfo();
+                    bannerInfo.ItemId = item.Type;
+                    bannerInfo.ItemName = item.Name;
+                    bannerInfo.BannerCount = 0;
+                    bannerInfo.IsHardMode = true;
+                    bannerInfo.Index = 0;
+                    bannerInfo.ModName = modName;
+                    BannerDict.Add(bannerInfo.ItemId, bannerInfo);
+                }
+
+                if (catalyst.TryFind("MetanovaSlimeBanner", out item))
+                {
+                    bannerInfo = new BannerInfo();
+                    bannerInfo.ItemId = item.Type;
+                    bannerInfo.ItemName = item.Name;
+                    bannerInfo.BannerCount = 0;
+                    bannerInfo.IsHardMode = true;
+                    bannerInfo.Index = 1;
+                    bannerInfo.ModName = modName;
+                    BannerDict.Add(bannerInfo.ItemId, bannerInfo);
+                }
+                #endregion
+            }
+            #endregion
         }
     }
 }
+

@@ -66,7 +66,6 @@ namespace BannerCollector
             // 패널 그리기
             Rectangle inner = GetInnerDimensions().ToRectangle();
             spriteBatch.Draw(BannerCollectorResources.UI_Panel.Value, inner, Color.White);
-
         }
     }
 
@@ -467,6 +466,10 @@ namespace BannerCollector
                 if (bannerInfo.ModName == "CalamityMod")
                 {
                     texture = BannerLoad.ModBannerTexture["CalamityMod"].Value;
+                }
+                else if (bannerInfo.ModName == "CatalystMod")
+                {
+                    texture = BannerLoad.ModBannerTexture["CatalystMod"].Value;
                 }
                 else
                 {

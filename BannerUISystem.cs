@@ -45,13 +45,23 @@ namespace BannerCollector
                 BannerLoad.ModList.Clear();
                 BannerLoad.ModBannerTexture.Clear();
                 // 특정 모드가 활성화되어 있는지 확인
+                //CalamityMod
                 if (ModLoader.HasMod("CalamityMod"))
                 {
                     BannerLoad.ModList.Add("CalamityMod");
                     BannerLoad.isModded = true;
-                    Mod calamity = ModLoader.GetMod("CalamityMod");
-                    Asset<Texture2D> bannerTexture = calamity.Assets.Request<Texture2D>("Tiles/MonsterBanner");
+                    Mod mod = ModLoader.GetMod("CalamityMod");
+                    Asset<Texture2D> bannerTexture = mod.Assets.Request<Texture2D>("Tiles/MonsterBanner");
                     BannerLoad.ModBannerTexture.Add("CalamityMod", bannerTexture);
+                }
+                //CatalystMod
+                if (ModLoader.HasMod("CatalystMod"))
+                {
+                    BannerLoad.ModList.Add("CatalystMod");
+                    BannerLoad.isModded = true;
+                    Mod mod = ModLoader.GetMod("CatalystMod");
+                    Asset<Texture2D> bannerTexture = mod.Assets.Request<Texture2D>("Tiles/EnemyBanners");
+                    BannerLoad.ModBannerTexture.Add("CatalystMod", bannerTexture);
                 }
 
                 BannerLoad.LoadBanners();
