@@ -1,4 +1,4 @@
-# Thank you for subscribe!!!
+# Thanks for subscribe!!!
 
 ![Image](https://github.com/user-attachments/assets/0f22371e-760d-4ebc-9d1c-6d0842cc45af)
 
